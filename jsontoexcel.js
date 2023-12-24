@@ -2,7 +2,7 @@
 const fs = require('fs');
 const XLSX = require('xlsx');
 
-// Function to read JSON file
+//code for reading the json file
 function readJsonFile(filePath) {
   try {
     const jsonData = fs.readFileSync(filePath, 'utf8');
@@ -13,7 +13,6 @@ function readJsonFile(filePath) {
   }
 }
 
-// Function to flatten nested JSON structure
 function flattenJson(jsonObj, prefix = '') {
   let flatObj = {};
   for (const [key, value] of Object.entries(jsonObj)) {
@@ -27,31 +26,28 @@ function flattenJson(jsonObj, prefix = '') {
   return flatObj;
 }
 
-// Function to convert JSON to Excel
+// code to convert json to excel
 function jsonToExcel(jsonData, excelFileName) {
-  // Flatten the nested JSON
   const flatData = flattenJson(jsonData);
 
-  // Create a worksheet
   const ws = XLSX.utils.json_to_sheet([flatData]);
 
-  // Create a workbook with the worksheet
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
 
-  // Write the workbook to an Excel file
   XLSX.writeFile(wb, excelFileName);
 }
 
-// Main script
-// const jsonFilePath = 'path/to/your/nested/data.json';
+// declare the path of the file
 const jsonFilePath = './sample.json';
+// name the excel file 
 const excelFileName = 'output_excel_file.xlsx';
 
-// Read the JSON file
+//reading the json file
 const jsonData = readJsonFile(jsonFilePath);
 
-// Convert JSON to Excel
+// converting the json file to excel sheet
 jsonToExcel(jsonData, excelFileName);
 
+// message to verify that the execution is done successfully.
 console.log(`Conversion successful. Excel file saved as ${excelFileName}.`);
